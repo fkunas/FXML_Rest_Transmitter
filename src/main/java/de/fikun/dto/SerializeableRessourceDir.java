@@ -5,23 +5,34 @@ import java.util.ArrayList;
 
 public class SerializeableRessourceDir implements Serializable {
 	private ArrayList<String> filepathList;
+	private ArrayList<String> filenameList;
 	private ArrayList<byte[]> byteArrayList;	
 	
-	public SerializeableRessourceDir(ArrayList<String> filepathList, ArrayList<byte[]> byteArrayList){
+	public SerializeableRessourceDir(ArrayList<String> filepathList, ArrayList<String> filenameList, ArrayList<byte[]> byteArrayList){
 		this.filepathList = filepathList;
+		this.filenameList = filenameList;
 		this.byteArrayList = byteArrayList;
 		
 	}
+
 	public ArrayList<String> getFilepathList() {
 		return filepathList;
+	}
+	
+	public ArrayList<String> getFilenameList() {
+		return filenameList;
+	}
+	
+	public ArrayList<byte[]> getByteArrayList() {
+		return byteArrayList;
 	}
 
 	public void setFilepathList(ArrayList<String> filepathList) {
 		this.filepathList = filepathList;
 	}
-
-	public ArrayList<byte[]> getByteArrayList() {
-		return byteArrayList;
+	
+	public void setFilenameList(ArrayList<String> filenameList) {
+		this.filenameList = filenameList;
 	}
 
 	public void setByteArrayList(ArrayList<byte[]> byteArrayList) {
