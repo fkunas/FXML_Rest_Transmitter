@@ -14,6 +14,11 @@ import java.util.Base64;
 
 import de.fikun.dto.SerializeableRessourceDir;
 
+/**
+ * 
+ * @author FiKun
+ *
+ */
 public class RessourceSerializer {
 	static File sourceDir = new File("/Users/FiKun/Documents/workspace_FXMLrest/fxml_rest_transmitter/source");
 	static String prepFile = "/Users/FiKun/Documents/workspace_FXMLrest/fxml_rest_transmitter/prep/b64.txt";
