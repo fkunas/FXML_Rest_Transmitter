@@ -1,6 +1,7 @@
 package de.fikun.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,8 +18,8 @@ import de.fikun.dto.SerializeableRessourceDir;
  *
  */
 public class RessourceDeserializer {
-	static String prepFile = "/Users/FiKun/Documents/workspace_FXMLrest/fxml_rest_transmitter/prep/b64.txt";
-	static String targetFilepath = "/Users/FiKun/Documents/workspace_FXMLrest/fxml_rest_transmitter/dest/";
+	static String prepFile = "/Users/FiKun/Documents/workspace_FXMLrest/file_rest_transmitter/prep/b64.txt";
+	static String targetFilepath = "/Users/FiKun/Documents/workspace_FXMLrest/file_rest_transmitter/dest/";
 	static SerializeableRessourceDir resDir;
 
 
@@ -46,20 +47,24 @@ public class RessourceDeserializer {
 
 	}
 	
-	private static void regenerateFiles(SerializeableRessourceDir resDir){
+	private static void regenerateFiles(SerializeableRessourceDir serializedRessource){
 		int i = 0;
-		for (String s : resDir.getFilenameList()){
+		for (String s : serializedRessource.getFilenameList()){
+			String curFilepath = targetFilepath + s;
 			try {
-			FileOutputStream fos;
+				File file = new File(curFilepath);
+				if(file.getParentFile() != null) {
+					System.out.println("We are in: " + file.getParentFile());
+					System.out.println("created it: " + file.getParentFile().mkdirs());
+				}
+				FileOutputStream fos;
 				fos = new FileOutputStream(targetFilepath + s);
-			fos.write(resDir.getByteArrayList().get(i));
+			fos.write(serializedRessource.getByteArrayList().get(i));
 			fos.close();
 			i++;
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

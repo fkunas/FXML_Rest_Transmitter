@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SerializeableRessourceDir implements Serializable {
+	private static final long serialVersionUID = 5572659389522556159L;
 	private ArrayList<String> filepathList;
 	private ArrayList<String> filenameList;
 	private ArrayList<byte[]> byteArrayList;	

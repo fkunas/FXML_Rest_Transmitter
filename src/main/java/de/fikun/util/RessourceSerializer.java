@@ -20,38 +20,54 @@ import de.fikun.dto.SerializeableRessourceDir;
  *
  */
 public class RessourceSerializer {
-	static File sourceDir = new File("/Users/FiKun/Documents/workspace_FXMLrest/fxml_rest_transmitter/source");
-	static String prepFile = "/Users/FiKun/Documents/workspace_FXMLrest/fxml_rest_transmitter/prep/b64.txt";
-	static ArrayList<String> filepathArray = new ArrayList<String>();
-	static ArrayList<String> filenameArray = new ArrayList<String>();
-	static ArrayList<byte[]> byteArrayList = new ArrayList<byte[]>();
+	
+	public static File testFile = new File("/Users/FiKun/Documents/workspace_FXMLrest/file_rest_transmitter/source");
+	//public static File sourceDir;
+	private static String sourcePath;
+	private static String prepFile = "/Users/FiKun/Documents/workspace_FXMLrest/file_rest_transmitter/prep/b64.txt";
+	private static ArrayList<String> filepathArray = new ArrayList<String>();
+	private static ArrayList<String> filenameArray = new ArrayList<String>();
+	private static ArrayList<byte[]> byteArrayList = new ArrayList<byte[]>();
 
 	public static void main(String[] args) {
-		listFolderContent(sourceDir);
+		serializeFileToString(testFile);
+		for (String s : filepathArray){
+			System.out.println(s);
+		}
+		for (String s : filenameArray){
+			System.out.println(s);
+		}
+	}
+	
+	private static String serializeFileToString(File source){
+		String b64 = "";
+		sourcePath = source.getAbsolutePath() + "/";
+
+		fetchSourceContent(source);
 		readFilesToByte(filepathArray);
-		String b64 = serializeObjectToString(new SerializeableRessourceDir(filepathArray, filenameArray, byteArrayList));
+		b64 = serializeObjectToString(new SerializeableRessourceDir(filepathArray, filenameArray, byteArrayList));
+		
 		writeStringToFile(b64, prepFile);
 		
 		
+		return b64;
 	}
-
-	private static void listFolderContent(File sourceFolder) {
-		for (String s : sourceFolder.list()) {
-			File curFile = new File(s);
-			File curFile2 = new File(sourceFolder.getAbsolutePath() + "/" + curFile.getName());
+	
+	private static void fetchSourceContent(File sourceDir) {
+		for (File curFile : sourceDir.listFiles()) {
 			
-			if (curFile2.isDirectory()) {
-				listFolderContent(curFile2);
+			if (curFile.isDirectory()) {
+				fetchSourceContent(curFile);
 			}
-			if (curFile2.isFile()) {
-				filepathArray.add(curFile2.getAbsolutePath());
-				filenameArray.add(curFile2.getName());
+			if (curFile.isFile()) {
+				filepathArray.add(curFile.getAbsolutePath());
+				filenameArray.add(curFile.getAbsolutePath().replace(sourcePath, ""));
 			}
 		}
 
 	}
 	
-	private static void readFilesToByte(ArrayList<String> filePathArray){
+	public static void readFilesToByte(ArrayList<String> filePathArray){
 		for (String s : filePathArray){
 			try {
 			Path path = Paths.get(s);
@@ -86,6 +102,7 @@ public class RessourceSerializer {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(prepFile))) {
 			bw.write(b64);
 		} catch (IOException e) {
+			//TODO
 			e.printStackTrace();
 		}
 		
